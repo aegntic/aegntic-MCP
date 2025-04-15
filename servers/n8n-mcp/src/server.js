@@ -468,12 +468,33 @@ server.method({
       } else {
         // Read from file system
         const workflowsDir = path.join(serverConfig.dataDir, 'workflows');
-        const files = fs.readdirSync(workflowsDir).filter(f => f.endsWith('.json'));
+        let files = [];
+        
+        if (fs.existsSync(workflowsDir)) {
+          try {
+            files = fs.readdirSync(workflowsDir).filter(f => f.endsWith('.json'));
+          } catch (error) {
+            return { success: false, error: `Error reading workflows directory: ${error.message}` };
+          }
+        } else {
+          // Create directory if it doesn't exist
+          try {
+            fs.mkdirSync(workflowsDir, { recursive: true });
+          } catch (error) {
+            return { success: false, error: `Error creating workflows directory: ${error.message}` };
+          }
+        }
         
         // Load each workflow
         for (const file of files) {
           const filePath = path.join(workflowsDir, file);
-          const workflow = fs.readJSONSync(filePath);
+          let workflow;
+          try {
+            workflow = fs.readJSONSync(filePath);
+          } catch (error) {
+            console.error(`Error reading workflow file ${file}: ${error.message}`);
+            continue;
+          }
           
           // Apply filters
           if (active !== undefined && workflow.active !== active) {
