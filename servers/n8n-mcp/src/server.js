@@ -761,11 +761,11 @@ server.method({
       let stdout = '';
       let stderr = '';
       
-      process.stdout.on('data', (data) => {
+      childProc.stdout.on('data', (data) => {
         stdout += data.toString();
       });
       
-      process.stderr.on('data', (data) => {
+      childProc.stderr.on('data', (data) => {
         stderr += data.toString();
       });
       
