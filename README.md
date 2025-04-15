@@ -32,9 +32,10 @@ When contributing a new server, please follow the established directory structur
 servers/your-server-name/
 ├── README.md          # Documentation for your server
 ├── package.json       # npm package configuration  
-├── src/               # Source code
-│   └── index.js       # Entry point
-└── ...
+├── index.js           # Entry point
+└── src/               # Source code
+    ├── index.js       # Main implementation
+    └── ...            # Additional modules
 ```
 
 ## License
