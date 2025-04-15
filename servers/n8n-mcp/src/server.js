@@ -802,8 +802,21 @@ server.method({
       });
       
       // Return execution result
-      return await new Promise((resolve) => {
+      return await new Promise((resolve, reject) => {
+        // Set timeout to prevent hanging
+        const timeoutId = setTimeout(() => {
+          childProc.kill();
+          reject(new Error('Workflow execution timed out'));
+        }, timeout || 3600000); // Default 1 hour timeout if not specified
+
+        // Handle process error
+        childProc.on('error', (err) => {
+          clearTimeout(timeoutId);
+          reject(err);
+        });
+
         childProc.on('close', (code) => {
+          clearTimeout(timeoutId);
           // Delete temporary data file if created
           if (dataFile && fs.existsSync(dataFile)) {
             fs.unlinkSync(dataFile);
