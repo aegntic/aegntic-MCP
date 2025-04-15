@@ -292,7 +292,39 @@ async function startN8nBackend() {
         });
         
         // Wait for n8n to start
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // Wait for n8n to start
+        await new Promise((resolve, reject) => {
+          let attempts = 0;
+          const maxAttempts = 30; // Maximum 30 attempts (30 seconds)
+          
+          const checkN8nReady = () => {
+            attempts++;
+            // Try to connect to n8n API to confirm it's running
+            const http = require('http');
+            const req = http.get('http://localhost:5678/healthz', (res) => {
+              if (res.statusCode === 200) {
+                resolve();
+              } else if (attempts < maxAttempts) {
+                setTimeout(checkN8nReady, 1000);
+              } else {
+                reject(new Error('n8n failed to start after 30 seconds'));
+              }
+            });
+            
+            req.on('error', (err) => {
+              if (attempts < maxAttempts) {
+                setTimeout(checkN8nReady, 1000);
+              } else {
+                reject(new Error(`n8n failed to start: ${err.message}`));
+              }
+            });
+            
+            req.end();
+          };
+          
+          // Start checking after a short delay
+          setTimeout(checkN8nReady, 1000);
+        });
       } else {
         console.log(`n8n version ${stdout.trim()} found globally`);
       }
