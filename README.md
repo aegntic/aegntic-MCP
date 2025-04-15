@@ -7,6 +7,7 @@ This repository contains a collection of Model Context Protocol (MCP) servers fo
 | Server | Description | Installation |
 |--------|-------------|-------------|
 | [Claude Export MCP](servers/claude-export-mcp) | Export Claude Desktop projects, conversations, and artifacts to Markdown format | `npx @aegntic/claude-export-mcp` |
+| [Firebase Studio MCP](servers/firebase-studio-mcp) | Complete access to Firebase and Google Cloud services | `npx @aegntic/firebase-studio-mcp` |
 
 ## What is MCP?
 
