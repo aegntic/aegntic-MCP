@@ -163,9 +163,21 @@ function setupExpressApp() {
   
   // Efficient JSON parsing with extended limits
   app.use(express.json({ 
-    limit: '500mb',
+-    limit: '500mb',
++    limit: '50mb', // Reduced limit; adjust to 5-10mb if smaller payloads are expected.
     strict: false // Less strict parsing for better performance
   }));
+  
++  // Validate request size to mitigate potential DoS attacks.
++  app.use((req, res, next) => {
++    if (req.method === 'POST' && req.headers['content-length'] > 50 * 1024 * 1024) {
++      return res.status(413).json({
++        success: false,
++        error: 'Request entity too large'
++      });
++    }
++    next();
++  });
   
   // CORS for all origins
   app.use((req, res, next) => {
