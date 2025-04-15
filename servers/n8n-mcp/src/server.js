@@ -104,7 +104,17 @@ async function initializeMemoryMode() {
   
   // Load any existing data
   const workflowsDir = path.join(serverConfig.dataDir, 'workflows');
-  const files = fs.readdirSync(workflowsDir).filter(f => f.endsWith('.json'));
+  let files = [];
+  if (fs.existsSync(workflowsDir)) {
+    try {
+      files = fs.readdirSync(workflowsDir).filter(f => f.endsWith('.json'));
+    } catch (error) {
+      console.error(`Error reading workflows directory: ${error.message}`);
+    }
+  } else {
+    console.log(`Creating workflows directory: ${workflowsDir}`);
+    fs.mkdirSync(workflowsDir, { recursive: true });
+  }
   
   // Import workflows from filesystem
   files.forEach(file => {
