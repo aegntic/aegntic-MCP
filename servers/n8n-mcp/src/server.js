@@ -749,7 +749,7 @@ server.method({
       const executionId = uuidv4();
       
       // Execute workflow
-      const process = spawn('n8n', args, {
+      const childProc = spawn('n8n', args, {
         cwd: serverConfig.dataDir,
         env: {
           ...process.env,
