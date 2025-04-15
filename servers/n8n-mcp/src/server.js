@@ -771,7 +771,7 @@ server.method({
       
       // Return execution result
       return await new Promise((resolve) => {
-        process.on('close', (code) => {
+        childProc.on('close', (code) => {
           // Delete temporary data file if created
           if (dataFile && fs.existsSync(dataFile)) {
             fs.unlinkSync(dataFile);
