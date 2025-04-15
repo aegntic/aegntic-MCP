@@ -1,6 +1,6 @@
 {
   "name": "@aegntic/firebase-studio-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for Firebase Studio integration",
   "main": "index.js",
   "bin": {
@@ -38,6 +38,9 @@
     "mcp-server": "^0.8.0",
     "firebase-admin": "^11.11.0",
     "google-auth-library": "^9.0.0"
+  },
+  "optionalDependencies": {
+    "qrcode-terminal": "^0.12.0"
   },
   "files": [
     "index.js",
