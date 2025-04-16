@@ -1,10 +1,14 @@
-# Node
+# Node.js dependencies
 node_modules/
-npm-debug.log
-yarn-debug.log
-yarn-error.log
 package-lock.json
-*.tgz
+yarn.lock
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Environment variables
 .env
@@ -13,33 +17,42 @@ package-lock.json
 .env.test.local
 .env.production.local
 
-# Logs
-logs
-*.log
+# Service account files (except example)
+*-service-account*.json
+*service-account*.json
+!service-account-example.json
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-
-# Build output
-dist/
-build/
-out/
-claude-export/
+# Firebase emulator files
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+.firebase/
+firebase-export/
+firebase-data/
 
 # Temp files
-tmp/
-temp/
+temp-*.json
+*.temp
+*.tmp
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Build output
+build/
+dist/
+out/
+
+# Coverage directory used by testing tools like Jest
+coverage/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+
+# Other
+*.log.*
+*.bak
+*.orig
