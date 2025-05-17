@@ -44,3 +44,5 @@ servers/your-server-name/
 ## License
 
 MIT
+
+[![Verified on MseeP](https://mseep.ai/badge.svg)](https://mseep.ai/app/3833fc27-d161-4dd3-82d7-bdc7e5d6e6de)
