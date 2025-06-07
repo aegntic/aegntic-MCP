@@ -25,6 +25,7 @@ async def initialize_clients():
         gemini_client = OpenRouterClient(gemini_config)
         collaboration_manager = CollaborationManager(gemini_client)
         print("🚀 AI Collaboration Hub initialized", file=sys.stderr)
+        print("📄 Created by: Mattae Cooper & '{ae}'aegntic.ai | Dual Licensed", file=sys.stderr)
         
     except Exception as e:
         print(f"❌ Failed to initialize: {e}", file=sys.stderr)
