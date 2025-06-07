@@ -5,7 +5,7 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![MCP](https://img.shields.io/badge/MCP-compatible-green.svg)](https://modelcontextprotocol.io)
 [![OpenRouter](https://img.shields.io/badge/OpenRouter-integrated-orange.svg)](https://openrouter.ai)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Dual](https://img.shields.io/badge/License-Dual%20License-blue.svg)](LICENSE)
 
 ## ✨ Features
 
@@ -167,7 +167,15 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is dual-licensed:
+- **Free for non-commercial use** (personal, educational, research)
+- **Commercial license required** for business use (contact authors)
+
+**Authors:**
+- Mattae Cooper <human@mattaecooper.org>
+- '{ae}'aegntic.ai <contact@aegntic.ai>
+
+See the [LICENSE](LICENSE) file for complete terms.
 
 ## 🔗 Links
 
@@ -187,4 +195,4 @@ If you find this project helpful, please consider:
 
 ---
 
-**Built for the AI development community** • **Powered by OpenRouter & MCP** • **Made with ❤️**
+**Created by Mattae Cooper & '{ae}'aegntic.ai** • **Built for the AI development community** • **Powered by OpenRouter & MCP** • **Made with ❤️**

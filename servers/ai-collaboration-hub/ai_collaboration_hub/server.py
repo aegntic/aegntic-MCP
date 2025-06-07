@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""
+AI Collaboration Hub - MCP Server
+Created by: Mattae Cooper <human@mattaecooper.org> and '{ae}'aegntic.ai <contact@aegntic.ai>
+License: Dual License (Free for non-commercial use, commercial license required)
+Repository: https://github.com/aegntic/aegntic-MCP
+"""
 import asyncio
 import sys
 from mcp.server import Server

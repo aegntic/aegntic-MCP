@@ -7,9 +7,10 @@ name = "ai-collaboration-hub"
 version = "1.0.0"
 description = "MCP server for supervised AI-to-AI collaboration between Claude Code and Gemini with 1M token context"
 readme = "README.md"
-license = { text = "MIT" }
+license = { text = "Dual License: Free for non-commercial use, commercial license required for commercial use" }
 authors = [
-    { name = "AI Collaboration Hub Contributors" }
+    { name = "Mattae Cooper", email = "human@mattaecooper.org" },
+    { name = "'{ae}'aegntic.ai", email = "contact@aegntic.ai" }
 ]
 keywords = ["mcp", "ai", "claude", "gemini", "collaboration", "openrouter"]
 classifiers = [

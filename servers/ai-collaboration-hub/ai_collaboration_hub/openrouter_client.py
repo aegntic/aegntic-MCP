@@ -1,3 +1,8 @@
+"""
+AI Collaboration Hub - OpenRouter Client
+Created by: Mattae Cooper <human@mattaecooper.org> and '{ae}'aegntic.ai <contact@aegntic.ai>
+License: Dual License (Free for non-commercial use, commercial license required)
+"""
 import os
 from typing import Optional
 import httpx

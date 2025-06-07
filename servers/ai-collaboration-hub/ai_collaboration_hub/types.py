@@ -1,3 +1,8 @@
+"""
+AI Collaboration Hub - Type Definitions
+Created by: Mattae Cooper <human@mattaecooper.org> and '{ae}'aegntic.ai <contact@aegntic.ai>
+License: Dual License (Free for non-commercial use, commercial license required)
+"""
 from datetime import datetime
 from enum import Enum
 from typing import List, Optional

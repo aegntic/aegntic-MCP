@@ -1,6 +1,12 @@
 # Contributing to AI Collaboration Hub
 
+**Authors:** Mattae Cooper <human@mattaecooper.org> and '{ae}'aegntic.ai <contact@aegntic.ai>
+
 Thank you for your interest in contributing! This guide will help you get started.
+
+## Important Note
+
+This project is dual-licensed. Contributions will be subject to the same licensing terms (free for non-commercial use, commercial license required for business use). By contributing, you agree to these terms.
 
 ## Development Setup
 

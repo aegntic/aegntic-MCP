@@ -1,3 +1,8 @@
+"""
+AI Collaboration Hub - Collaboration Manager
+Created by: Mattae Cooper <human@mattaecooper.org> and '{ae}'aegntic.ai <contact@aegntic.ai>
+License: Dual License (Free for non-commercial use, commercial license required)
+"""
 import asyncio
 from datetime import datetime
 from typing import Dict, List, Optional
