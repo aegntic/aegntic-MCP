@@ -53,88 +53,217 @@ npx @aegntic/n8n-mcp
 npx @aegntic/docker-mcp
 ```
 
-## Predictive Prompt Templates
+## Tool-Specific Prompt Templates
 
-To maximize the effectiveness of each MCP server, use these optimized prompt templates:
+Each MCP server provides specific tools. Use these optimized prompt templates for each individual tool:
 
-### Aegntic Knowledge Engine
-**Use Case:** Comprehensive knowledge management and research
+### Aegntic Knowledge Engine (20 tools)
+
+**Required Resources:** Python 3.12+, UV package manager, 100MB+ disk space, Optional: OpenRouter API key
+
+#### Web Crawling & RAG Tools
+**`crawl_single_page`**
 ```
-Required Resources:
-- Python 3.12+, UV package manager
-- 100MB+ disk space for databases
-- Optional: OpenRouter API key for enhanced models
-
-Prompt Templates:
-1. "Crawl and analyze the documentation at [URL], then create a knowledge graph of the key concepts and their relationships"
-2. "Search my crawled knowledge base for information about [topic] and provide a comprehensive summary with sources"
-3. "Create a task to research [topic], then use sequential thinking to break it down into actionable steps"
-4. "Extract all code examples from [documentation URL] and organize them by programming language and functionality"
-5. "Build a knowledge graph connecting [concept A] to [concept B] through their shared relationships and dependencies"
+"Crawl the documentation page at https://docs.example.com/api/authentication and store it for later analysis"
 ```
 
-### Claude Export MCP
-**Use Case:** Backup and documentation of Claude conversations
+**`smart_crawl_url`** 
 ```
-Required Resources:
-- Node.js 14+, 50MB+ disk space
-- Read access to Claude Desktop data directory
-- Write permissions to export directory
-
-Prompt Templates:
-1. "Export all my Claude projects to Markdown format, organizing by project structure"
-2. "Export only conversations from the last 30 days to ~/claude-backup/"
-3. "Create a backup of my current project's conversations and artifacts"
-4. "Export and analyze my conversation patterns to identify the most productive discussion topics"
-5. "Generate a project report from my exported Claude conversations, highlighting key decisions and outcomes"
+"Smart crawl https://docs.python.org/sitemap.xml with max_depth=2 and max_concurrent=5 to build a comprehensive Python documentation database"
 ```
 
-### Firebase Studio MCP
-**Use Case:** Firebase and Google Cloud operations
+**`get_available_sources`**
 ```
-Required Resources:
-- Node.js 14+, Firebase CLI, Google Cloud SDK
-- Firebase service account key
-- Appropriate Firebase/GCP project permissions
-
-Prompt Templates:
-1. "List all my Firebase projects and show the current authentication users for [project-name]"
-2. "Deploy my website to Firebase Hosting and configure custom domain settings"
-3. "Query my Firestore database for users where status='active' and created_date > last week"
-4. "Create a new Firebase Authentication user with email [email] and send verification"
-5. "Set up Firebase emulators for local development and test my Firestore security rules"
+"Show me all available sources in my knowledge base so I can see what domains have been crawled"
 ```
 
-### n8n MCP
-**Use Case:** Workflow automation and integration
+**`perform_rag_query`**
 ```
-Required Resources:
-- Node.js 16+, 200MB+ memory
-- Internet connection for node downloads
-- API keys for integrated services (optional)
-
-Prompt Templates:
-1. "Create an n8n workflow that monitors [data source] and sends alerts to Slack when [condition] is met"
-2. "Build an automation that processes CSV files from [source] and updates my database with the results"
-3. "Set up a workflow to sync data between [service A] and [service B] every hour"
-4. "Create a credential for [API service] and build a workflow that fetches daily reports"
-5. "Design a multi-step workflow that: fetches data → processes it → sends notifications → logs results"
+"Search my crawled knowledge base for 'authentication patterns' and filter by source='docs.fastapi.tiangolo.com' with match_count=3"
 ```
 
-### Docker MCP
-**Use Case:** Container and infrastructure management
+**`search_code_examples`**
 ```
-Required Resources:
-- Docker installed and running
-- Appropriate Docker permissions
-- Docker Hub account (optional for registry operations)
+"Find code examples related to 'async database connections' from source='docs.sqlalchemy.org' and return 5 matches"
+```
 
-Prompt Templates:
-1. "Show me all running containers and their resource usage, then stop any that aren't essential"
-2. "Build a Docker image from my Dockerfile, tag it, and push to Docker Hub"
-3. "Create a new container from [image] with environment variables [vars] and port mapping [ports]"
-4. "Set up a Docker Compose stack for [application] with database, web server, and cache layers"
-5. "Monitor Docker container logs for [container-name] and alert me if any errors occur"
+#### Knowledge Graph Tools  
+**`create_entities`**
+```
+"Create entities for: [{'name': 'FastAPI', 'entityType': 'framework', 'observations': ['High-performance web framework', 'Built on Starlette and Pydantic']}]"
+```
+
+**`create_relations`**
+```
+"Create relations: [{'from': 'FastAPI', 'to': 'Pydantic', 'relationType': 'depends_on'}, {'from': 'FastAPI', 'to': 'Starlette', 'relationType': 'built_on'}]"
+```
+
+**`add_observations`**
+```
+"Add observations to FastAPI entity: [{'entityName': 'FastAPI', 'contents': ['Supports automatic API documentation', 'Type hints for validation']}]"
+```
+
+**`read_graph`**
+```
+"Show me the complete knowledge graph with all entities and their relationships"
+```
+
+**`search_nodes`**
+```
+"Search knowledge graph for entities related to 'web framework performance' to understand the ecosystem"
+```
+
+**`open_nodes`**
+```
+"Open specific entities: ['FastAPI', 'Django', 'Flask'] to compare their details and relationships"
+```
+
+#### Task Management Tools
+**`create_tasks`**
+```
+"Create tasks: [{'content': 'Research FastAPI authentication patterns', 'status': 'pending', 'priority': 'high', 'project': 'api_redesign'}]"
+```
+
+**`update_task_status`**
+```
+"Update task ID 'task-123' status to 'completed' after finishing the authentication research"
+```
+
+**`get_tasks`**
+```
+"Get all pending tasks for project 'api_redesign' with limit=10 to see current workload"
+```
+
+**`get_task_summary`**
+```
+"Show me task statistics including counts by status and priority across all projects"
+```
+
+**`sequential_thinking`**
+```
+"Start sequential thinking: thought='Let me analyze the authentication requirements for our API', thought_number=1, total_thoughts=5"
+```
+
+#### Documentation Context Tools
+**`resolve_library_id`**
+```
+"Resolve library name 'react' to get the correct Context7-compatible library ID for documentation lookup"
+```
+
+**`get_library_docs`**
+```
+"Get React documentation for library_id='/facebook/react' focusing on 'hooks' with tokens=5000"
+```
+
+**`get_context_cache_stats`**
+```
+"Show me documentation cache statistics to understand storage usage and hit rates"
+```
+
+**`clear_expired_context_cache`**
+```
+"Clean up expired documentation cache entries to free storage space"
+```
+
+### Claude Export MCP (2 tools)
+
+**Required Resources:** Node.js 14+, 50MB+ disk space, Claude Desktop read access
+
+**`export_chats`**
+```
+"Export all my Claude projects to ~/claude-backup/ maintaining the full project structure with conversations and artifacts"
+```
+
+**`server_info`**
+```
+"Get information about the Claude Export MCP server including available tools and version"
+```
+
+### Firebase Studio MCP (15+ tools)
+
+**Required Resources:** Node.js 14+, Firebase CLI, Google Cloud SDK, Firebase service account key
+
+**`initializeFirebase`**
+```
+"Initialize Firebase Admin SDK with serviceAccountPath='./service-account.json' and databaseURL='https://my-project.firebaseio.com'"
+```
+
+**`firebaseCommand`**
+```
+"Execute Firebase command 'deploy' with args=['--only', 'hosting'] in cwd='/path/to/project'"
+```
+
+**`listProjects`**
+```
+"List all my Firebase projects to see available project IDs and their status"
+```
+
+**`gcloudCommand`**
+```
+"Execute gcloud command: service='compute', command='instances list', project='my-project-id', json=true"
+```
+
+**`startEmulators`**
+```
+"Start Firebase emulators for services=['auth', 'firestore', 'functions'] with importData='./firebase-data'"
+```
+
+### n8n MCP (15+ tools)
+
+**Required Resources:** Node.js 16+, 200MB+ memory, internet connection
+
+**`createWorkflow`**
+```
+"Create workflow with name='Data Sync' and nodes=[{name: 'HTTP Request', type: 'httpRequest', parameters: {url: 'https://api.example.com/data'}}]"
+```
+
+**`executeWorkflow`**
+```
+"Execute workflow ID 'workflow-123' with input data and executionMode='cli' and timeout=0"
+```
+
+**`listWorkflows`**
+```
+"List all available workflows to see what automation processes are configured"
+```
+
+**`createCredential`**
+```
+"Create credential with name='API Key', type='httpHeaderAuth', data={name: 'X-API-Key', value: 'secret-key'}"
+```
+
+**`getExecutionResult`**
+```
+"Get execution result for execution ID 'exec-456' to check the workflow output and status"
+```
+
+### Docker MCP (10+ tools)
+
+**Required Resources:** Docker installed, appropriate permissions, optional Docker Hub account
+
+**`listContainers`**
+```
+"List all Docker containers including stopped ones to see current container status"
+```
+
+**`createContainer`**
+```
+"Create container from image 'nginx:latest' with name='web-server' and ports={'80/tcp': 8080}"
+```
+
+**`buildImage`**
+```
+"Build Docker image from './Dockerfile' with tag='my-app:v1.0' in current directory"
+```
+
+**`startContainer`**
+```
+"Start container 'web-server' and confirm it's running properly"
+```
+
+**`getContainerLogs`**
+```
+"Get logs from container 'web-server' with tail=100 to troubleshoot recent issues"
 ```
 
 ## Server-Specific Resources
@@ -195,7 +324,7 @@ npx @aegntic/[server-name] --test-tools
 When contributing a new MCP server, please follow these requirements:
 
 ### Mandatory Components
-1. **Predictive Prompt Templates**: 5+ optimized prompts showing effective usage patterns
+1. **Tool-Specific Prompt Templates**: Optimized prompt template for each individual tool showing exact usage patterns
 2. **Resource Requirements**: Detailed runtime, memory, storage, and dependency specifications  
 3. **Authentication Setup**: Clear instructions for API keys and credentials
 4. **Performance Guidelines**: Optimization tips and scaling considerations
@@ -214,11 +343,20 @@ servers/your-server-name/
 
 ### README Template Requirements
 Your server's README.md must include:
-- **Predictive Prompt Templates** section with 5+ usage examples
+- **Tool-Specific Prompt Templates** section with optimized prompt for each individual tool
 - **Required Resources** table with runtime/memory/storage specs
 - **API Keys and Authentication** setup instructions
 - **Performance Optimization** guidelines
 - **Troubleshooting** section with common issues and solutions
+
+**Format for Tool Templates:**
+```
+#### Tool Category
+**`tool_name`**
+```
+"Optimized prompt showing exact tool usage with realistic parameters"
+```
+```
 
 See existing servers as examples of the expected documentation quality and completeness.
 
