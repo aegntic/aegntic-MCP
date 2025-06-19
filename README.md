@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/aegntic-claude-export-mcp-badge.png)](https://mseep.ai/app/aegntic-claude-export-mcp)
+
 # Aegntic MCP Servers
 
 This repository contains a collection of Model Context Protocol (MCP) servers for various tasks and integrations. Each server resides in its own subdirectory and can be used independently through our unified global configuration.
