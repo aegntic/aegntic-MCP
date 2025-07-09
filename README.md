@@ -44,7 +44,7 @@ We maintain a unified MCP configuration approach that works seamlessly across bo
 
 ### 🧠 Knowledge & Memory
 - **[graphiti-mcp](./graphiti-mcp/)** - Temporal knowledge graph memory system for AI agents
-- **[n8n-pro](./n8n-pro/)** - Comprehensive n8n workflow documentation and management
+- **[n8n-pro](./n8n-pro/)** - Comprehensive n8n workflow documentation and management (525+ nodes)
 
 ### 🔨 Development & Automation
 - **[just-prompt](./just-prompt/)** - Multi-LLM prompt orchestration with CEO/board decision making
@@ -164,7 +164,11 @@ Create or update `~/.config/Claude/claude_desktop_config.json`:
     },
     "n8n-pro": {
       "command": "node",
-      "args": ["/path/to/aegntic-MCP/n8n-pro/dist/mcp/index.js"]
+      "args": ["/path/to/aegntic-MCP/n8n-pro/dist/mcp/index.js"],
+      "env": {
+        "N8N_API_URL": "http://localhost:5678",
+        "N8N_API_KEY": "your-n8n-api-key"
+      }
     },
     "just-prompt": {
       "command": "uv",
@@ -264,7 +268,7 @@ uv run python main.py  # or specific entry point
 | comfyui-mcp | TypeScript | Image generation, video creation, background removal, logo design |
 | aegntic-auth | TypeScript | User registration, Stripe payments, email campaigns, usage tracking |
 | graphiti-mcp | Python | Knowledge graphs, memory storage, entity extraction, temporal data |
-| n8n-pro | TypeScript | n8n documentation, workflow validation, node information |
+| n8n-pro | TypeScript | n8n documentation (525+ nodes), workflow validation, node information, AI tool detection |
 | just-prompt | Python | Multi-LLM prompting, model comparison, CEO decision making |
 | quick-data | Python | Data analysis, visualization, statistical insights, ML features |
 
