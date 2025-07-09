@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/aegntic-claude-export-mcp-badge.png)](https://mseep.ai/app/aegntic-claude-export-mcp)
+
 # Aegntic MCP Collection
 
 A comprehensive collection of Model Context Protocol (MCP) servers for AI agents, providing advanced capabilities for documentation, authentication, data analysis, image generation, and more.
@@ -14,6 +16,21 @@ cd aegntic-mcp
 
 # Configure your Claude Desktop or other MCP client
 ```
+
+## Unified MCP Configuration
+
+We maintain a unified MCP configuration approach that works seamlessly across both Claude Desktop and Claude Code. This configuration lives in:
+
+- **Claude Desktop**: `~/.config/Claude/claude_desktop_config.json`
+- **Claude Code**: `~/.config/claude-code/mcp_servers.json`
+- **Global MCP Servers**: `~/.mcp-servers/` (for locally developed servers)
+
+### Benefits of Unified Configuration
+
+1. **Single Source of Truth**: One configuration works across all Claude environments
+2. **Easy Management**: Add or update servers in one place
+3. **Consistent Paths**: Servers work regardless of which Claude interface you're using
+4. **Development Friendly**: Local servers are stored in a dedicated global directory
 
 ## 📦 MCP Servers Included
 
@@ -33,22 +50,88 @@ cd aegntic-mcp
 - **[just-prompt](./just-prompt/)** - Multi-LLM prompt orchestration with CEO/board decision making
 - **[quick-data](./quick-data/)** - Quick data analysis, visualization, and insights
 
-## 🛠 Installation & Configuration
+## Available MCP Servers
 
-### Global MCP Configuration
+| Server | Type | Description | Installation Path |
+|--------|------|-------------|-------------------|
+| [Aegntic Knowledge Engine](servers/aegntic-knowledge-engine) | Local/UV | **Zero-cost unified knowledge engine** with web crawling, RAG, memory graph, task management, and documentation context (20 tools) | `servers/aegntic-knowledge-engine` |
+| [AI Collaboration Hub](servers/ai-collaboration-hub) | Local/UV | AI-powered collaboration tools with OpenRouter integration | `~/.mcp-servers/ai-collaboration-hub` |
+| [Claude Export MCP](servers/claude-export-mcp) | NPM | Export Claude Desktop projects, conversations, and artifacts to Markdown format | `npx @aegntic/claude-export-mcp` |
+| [Firebase Studio MCP](servers/firebase-studio-mcp) | NPM | Complete access to Firebase and Google Cloud services | `npx @aegntic/firebase-studio-mcp` |
+| [n8n MCP](servers/n8n-mcp) | NPM | Limitless n8n workflow automation with no restrictions | `npx @leonardsellem/n8n-mcp-server` |
+| [Docker MCP](servers/docker-mcp) | UVX | Comprehensive Docker container and image management with Docker Hub integration | `uvx mcp-server-docker` |
+| [Just Prompt](external) | Local/UV | Advanced prompt orchestration and model routing | `/home/tabs/ae-co-system/CLAEM/just-prompt-orchestration/just-prompt` |
+| [Quick Data](external) | Local/UV | Fast data processing and analysis tools | `/home/tabs/ae-co-system/DAILYDOCO/quick-data-mcp` |
+| [DailyDoco Pro](local) | Local/Node | Professional documentation and project management | `~/.mcp-servers/dailydoco-pro` |
+| [Aegnt-27](local) | Local/Node | Advanced AI agent capabilities | `~/.mcp-servers/aegnt-27` |
+| [Aegnt-27-lib](local) | Local/Node | AI agent library and utilities | `~/.mcp-servers/aegnt-27-lib` |
 
-Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
+### Additional Integrated Servers
+
+These servers are included in our unified configuration:
+
+| Server | Type | Description |
+|--------|------|-------------|
+| filesystem | NPM | File system operations |
+| memory | NPM | Memory and knowledge management |
+| context7 | NPM | Context management for AI conversations |
+| puppeteer | NPM | Browser automation with Playwright |
+| sequentialthinking | NPM | Sequential thinking and reasoning tools |
+| github | Smithery | GitHub integration and operations |
+| exa | Smithery | Advanced search capabilities |
+| smithery | Smithery | Smithery toolbox utilities |
+| desktop-commander | Smithery | Desktop automation and control |
+| ppick | UVX | Process picking and management |
+| notionApi | NPM | Notion API integration |
+| supabase | NPM | Supabase database integration |
+
+## Installation & Setup
+
+### 1. Global MCP Servers Directory
+
+First, ensure you have the global MCP servers directory:
+
+```bash
+mkdir -p ~/.mcp-servers
+```
+
+### 2. Install Runtime Requirements
+
+#### Python Servers (UV)
+```bash
+# Install UV package manager
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+#### Node.js Servers
+```bash
+# Ensure Node.js 14+ is installed
+node --version
+npm --version
+```
+
+### 3. Configure Unified MCP Settings
+
+#### For Claude Desktop
+
+Create or update `~/.config/Claude/claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
     "dailydoco-pro": {
       "command": "node",
-      "args": ["/path/to/aegntic-MCP/dailydoco-pro/dist/index.js"]
+      "args": ["/path/to/aegntic-MCP/dailydoco-pro/dist/index.js"],
+      "env": {
+        "USER_EMAIL": "your-email@example.com"
+      }
     },
     "aegnt-27": {
       "command": "node", 
-      "args": ["/path/to/aegntic-MCP/aegnt-27/dist/index.js"]
+      "args": ["/path/to/aegntic-MCP/aegnt-27/dist/index.js"],
+      "env": {
+        "USER_EMAIL": "your-email@example.com"
+      }
     },
     "comfyui": {
       "command": "node",
@@ -99,9 +182,58 @@ Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/
         "run", "--directory", "/path/to/aegntic-MCP/quick-data",
         "python", "main.py"
       ]
+    },
+    
+    // Additional NPM-based servers
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/home/tabs"],
+      "env": {}
+    },
+    
+    // UVX-based servers
+    "docker": {
+      "command": "uvx",
+      "args": ["mcp-server-docker"],
+      "env": {}
+    },
+    
+    // Additional integrated servers
+    "ai-collaboration-hub": {
+      "command": "uv",
+      "args": ["run", "python", "-m", "ai_collaboration_hub.server"],
+      "cwd": "/home/tabs/ae-co-system/aegntic-MCP/servers/ai-collaboration-hub",
+      "env": {
+        "OPENROUTER_API_KEY": "your-key-here"
+      }
+    }
     }
   }
 }
+```
+
+#### For Claude Code
+
+Create or update `~/.config/claude-code/mcp_servers.json` with the same structure.
+
+### 4. Server-Specific Setup
+
+#### Local Development Servers
+
+For servers like DailyDoco Pro, Aegnt-27:
+```bash
+cd ~/.mcp-servers/server-name
+npm install
+npm run build
+```
+
+#### Python UV Servers
+
+For servers like AI Collaboration Hub:
+```bash
+cd /path/to/server
+uv sync
+uv run python -m module_name.server
 ```
 
 ## 🔧 Development Setup
@@ -154,6 +286,26 @@ uv run python main.py  # or specific entry point
 - **Workflow Automation** - Comprehensive n8n integration and management
 - **Image/Video Generation** - Professional media creation workflows
 - **Project Analysis** - Automated code documentation and insights
+
+## What is MCP?
+
+The Model Context Protocol (MCP) is a standard for extending the capabilities of AI assistants like Claude by giving them access to external tools and services. These servers implement the MCP standard to provide specialized functionality that can be used directly from within Claude conversations.
+
+## Using These Servers
+
+Each server in this repository can be installed and run independently. See the README in each server's directory for specific installation and usage instructions.
+
+### Runtime Requirements
+
+- **Python Servers** (Aegntic Knowledge Engine, AI Collaboration Hub): Requires Python 3.12+ and UV package manager
+- **Node.js Servers** (All others): Requires Node.js 14+ and npm/npx
+- **Local Servers**: Built and stored in `~/.mcp-servers/`
+
+### General Usage
+
+1. **Configure the server** in your Claude Desktop or Claude Code configuration file
+2. **Restart Claude** to load the new configuration
+3. **Use the tools** provided by the server directly in your Claude conversation
 
 ## 🔒 Security & Authentication
 

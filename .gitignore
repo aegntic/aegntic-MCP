@@ -10,12 +10,16 @@ env/
 # Build outputs
 dist/
 build/
+out/
 *.tsbuildinfo
 
 # Environment files
 .env
 .env.local
 .env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Database files
 *.db
@@ -67,6 +71,7 @@ tmp/
 temp/
 *.tmp
 *.temp
+temp-*.json
 
 # Model files and outputs
 models/
@@ -75,3 +80,21 @@ outputs/
 *.safetensors
 *.pt
 *.pth
+
+# Service account files (except example)
+*-service-account*.json
+*service-account*.json
+!service-account-example.json
+
+# Firebase emulator files
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+.firebase/
+firebase-export/
+firebase-data/
+
+# Other
+*.log.*
+*.bak
+*.orig
