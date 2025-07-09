@@ -6,10 +6,12 @@ A comprehensive collection of Model Context Protocol (MCP) servers for AI agents
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/aegntic-MCP.git
-cd aegntic-MCP
+git clone https://github.com/aegntic/aegntic-mcp.git
+cd aegntic-mcp
 
-# Install dependencies for each server (see individual README files)
+# Run the automated setup script
+./setup.sh
+
 # Configure your Claude Desktop or other MCP client
 ```
 
