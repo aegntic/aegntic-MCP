@@ -1,0 +1,192 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# SENSITIVE FILES - CRITICAL TO EXCLUDE
+# Authentication and secrets
+*.key
+*.cert
+*.p12
+*.pfx
+service-account*.json
+firebase-adminsdk*.json
+credentials.json
+.credentials.json
+token.json
+auth.json
+config.json
+!config.example.json
+!package.json
+!tsconfig.json
+!components.json
+verification_code.txt
+
+# Google Cloud SDK
+google-cloud-sdk/
+google-cloud-cli-*.tar.gz
+gcloud/
+.gcloud/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Private configuration
+*.local
+*.private
+private/
+.private/
+.claude/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv/
+
+# Logs
+logs/
+*.log
+*.out
+*.err
+crash-diag/
+*-errors.log
+crash_diag*.tar.gz
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+dead.letter
+
+# Application binaries
+ngrok
+ngrok-*
+neo4j-desktop-*.AppImage
+AnythingLLM-Desktop.AppImage
+Obsidian-*.AppImage
+Cursor-*.AppImage
+nomachine*.deb
+discord-*.deb
+google-chrome-stable*.deb
+docker-desktop*.deb
+*.AppImage
+*.deb
+*.tar.gz
+*.tar.xz
+*.zip
+!*.lock
+
+# Media files 
+*.mkv
+*.mp4
+*.mov
+*.avi
+*.dmg
+
+# Personal directories
+Downloads/
+Documents/
+Pictures/
+Videos/
+Music/
+Desktop/
+Dropbox/
+Google Drive/
+G00gl-Drive/
+gdrive/
+Workspace/
+
+# MCP and Claude specific
+claude-mcp/
+mcp-config.json
+mcp.json
+!global-mcp-config.json
+
+# Python modules
+aiohttp
+asyncio
+paramiko
+subprocess
+difflib
+os
+re
+convert
+cli/
+bin/
+
+# Large data files
+*.csv.gz
+*.sql
+*.dump
+
+# Email and OAuth
+*.eml
+*.msg
+client_secret*.json
+oauth*.json
+
+# Misc
+.~lock.*
+*.iso
+*.exe
+*.nupkg
+*.woff2
+!fonts/**/*.woff2
