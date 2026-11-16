@@ -68,7 +68,7 @@ export class ListmonkService {
       });
 
       console.log(`✅ Added ${data.email} to Listmonk`);
-    } catch (error) {
+    } catch {
       throw new Error("Newsletter enrollment failed");
     }
   }
