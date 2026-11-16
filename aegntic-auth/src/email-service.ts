@@ -1,5 +1,7 @@
 import * as nodemailer from "nodemailer";
 import { ListmonkService } from "./listmonk-service.js";
+import type { MailingListName } from "./listmonk-service.js";
+import type { EnrollmentOutcome } from "./listmonk-client.js";
 
 export class EmailService {
   private transporter: any;
@@ -18,6 +20,9 @@ export class EmailService {
         host: process.env.SMTP_HOST || "smtp.sendgrid.net",
         port: 587,
         secure: false,
+        connectionTimeout: 5000,
+        greetingTimeout: 5000,
+        socketTimeout: 5000,
         auth: {
           user: process.env.SMTP_USER || "apikey",
           pass: this.apiKey
@@ -29,17 +34,11 @@ export class EmailService {
   async addToMailingList(data: {
     email: string;
     name: string;
-    lists: string[];
+    lists: MailingListName[];
     tier?: string;
-    api_key?: string;
     organization?: string;
-  }): Promise<void> {
-    if (this.mockMode) {
-      console.log(`📧 MOCK: Adding ${data.email} to mailing lists: ${data.lists.join(", ")}`);
-      return;
-    }
-
-    await this.listmonk.addSubscriber({
+  }): Promise<EnrollmentOutcome | "mock"> {
+    return this.listmonk.addSubscriber({
       email: data.email,
       name: data.name,
       lists: data.lists,
