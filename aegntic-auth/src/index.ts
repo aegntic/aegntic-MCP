@@ -147,7 +147,7 @@ class AegnticAuthServer {
         tier: args.tier || "free"
       });
 
-      let newsletterEnrollment: "subscribed" | "failed" | "not_requested" = "not_requested";
+      let newsletterEnrollment: "subscribed" | "failed" | "not_requested" | "mock" = "not_requested";
       // Add to email list if subscribed
       if (args.subscribe_newsletter !== false) {
         try {
@@ -158,7 +158,7 @@ class AegnticAuthServer {
             tier: args.tier || "free",
             organization: args.organization
           });
-          newsletterEnrollment = "subscribed";
+          newsletterEnrollment = MOCK_SERVICES ? "mock" : "subscribed";
         } catch {
           newsletterEnrollment = "failed";
         }
