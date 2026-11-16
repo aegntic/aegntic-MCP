@@ -1,3 +1,4 @@
+import { requireJwtSecret } from "./jwt-config.js";
 import { v4 as uuidv4 } from "uuid";
 import * as jwt from "jsonwebtoken";
 
@@ -17,7 +18,7 @@ export class AuthManager {
   private apiKey: string;
 
   constructor(apiKey?: string) {
-    this.apiKey = apiKey || "default-key";
+    this.apiKey = requireJwtSecret(apiKey ?? process.env.JWT_SECRET);
     // In production, this would connect to a database
   }
 
