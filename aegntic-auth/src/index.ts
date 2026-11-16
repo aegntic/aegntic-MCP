@@ -147,16 +147,21 @@ class AegnticAuthServer {
         tier: args.tier || "free"
       });
 
+      let newsletterEnrollment: "subscribed" | "failed" | "not_requested" = "not_requested";
       // Add to email list if subscribed
       if (args.subscribe_newsletter !== false) {
-        await this.emailService.addToMailingList({
-          email: args.email,
-          name: args.name,
-          lists: ["newsletter", "product-updates"],
-          tier: args.tier || "free",
-          api_key: user.api_key,
-          organization: args.organization
-        });
+        try {
+          await this.emailService.addToMailingList({
+            email: args.email,
+            name: args.name,
+            lists: ["newsletter", "product-updates"],
+            tier: args.tier || "free",
+            organization: args.organization
+          });
+          newsletterEnrollment = "subscribed";
+        } catch {
+          newsletterEnrollment = "failed";
+        }
       }
 
       // Send welcome email
@@ -172,7 +177,10 @@ class AegnticAuthServer {
             type: "text",
             text: JSON.stringify({
               success: true,
-              message: "User registered successfully",
+              message: newsletterEnrollment === "failed"
+                ? "Account registered, but newsletter enrollment failed"
+                : "User registered successfully",
+              newsletter_enrollment: newsletterEnrollment,
               user_id: user.id,
               tier: user.tier,
               api_key: user.api_key
