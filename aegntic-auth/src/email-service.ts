@@ -39,26 +39,16 @@ export class EmailService {
       return;
     }
 
-    try {
-      // Add subscriber to Listmonk
-      await this.listmonk.addSubscriber({
-        email: data.email,
-        name: data.name,
-        status: 'enabled',
-        attribs: {
-          tier: data.tier || 'free',
-          api_key: data.api_key,
-          organization: data.organization,
-          source: 'aegntic-auth'
-        }
-      });
-      
-      console.log(`✅ Added ${data.email} to Listmonk mailing lists`);
-    } catch (error) {
-      console.error(`Failed to add to Listmonk: ${error.message}`);
-      // Fallback to logging
-      console.log(`Adding ${data.email} to mailing lists: ${data.lists.join(", ")}`);
-    }
+    await this.listmonk.addSubscriber({
+      email: data.email,
+      name: data.name,
+      lists: data.lists,
+      metadata: {
+        tier: data.tier || "free",
+        organization: data.organization,
+        source: "aegntic-auth"
+      }
+    });
   }
 
   async sendWelcomeEmail(data: {
