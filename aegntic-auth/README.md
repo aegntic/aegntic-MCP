@@ -239,7 +239,7 @@ bun run build
 
 ### Testing
 ```bash
-bun test
+bun run test
 ```
 
 ### Local Development
@@ -267,3 +267,23 @@ Developed by:
 - **aegntic.foundation** <research@aegntic.ai>
 
 Part of the aegntic MCP ecosystem.
+### Newsletter enrollment configuration and outcomes
+
+Use the existing Bun toolchain for both `bun test` and `bun run test`; the regression suite does not require Node's newer TypeScript-stripping API. No new SDK or test dependency is added: the existing node-fetch client and Bun transpiler/test runner are reused.
+
+Set `LISTMONK_URL`, `LISTMONK_USER`, and `LISTMONK_PASSWORD` explicitly in secure deployment configuration. No login defaults are provided. If a URL is configured with missing credentials, startup fails.
+
+An administrator must provision exactly one active **aegntic Newsletter** list and one active **aegntic Product Updates** list before enrollment. Existing correctly named lists are preserved. Registration no longer creates audiences: missing or ambiguous lists produce an enrollment error instead of racing to create duplicate lists. Existing list opt-in policies are preserved.
+
+Account registration, newsletter enrollment and welcome delivery are separate outcomes:
+- `success` describes account registration.
+- `newsletter_enrollment`: `subscribed` means verified confirmed membership; `pending` means unconfirmed membership; `suppressed` preserves blocklisting, disabled status or unsubscribe; `not_enrolled` means an existing subscriber lacks a requested membership; `unknown` means a create may have succeeded but could not be verified; `failed` means the enrollment operation failed; `not_requested` and `mock` are explicit non-enrollment outcomes.
+- `welcome_email`: `sent`, `failed` or `mock`. Welcome failures do not falsely report that an already-created account failed.
+
+Retries read existing subscriber state. They never re-enable a suppressed subscriber, overwrite opt-in state, or silently add memberships to an existing subscriber. Missing memberships require an explicit, separately consented subscription flow; this registration API is not a resubscribe endpoint. No preconfirmation bypass is sent.
+
+Listmonk requests have a five-second timeout, including response-body reads, and reject redirects. SMTP connection, greeting and socket timeouts are five seconds. Failures log only safe categories/status codes; response bodies, credentials and subscriber details are not logged by the Listmonk client. Original transport causes remain attached to errors, not emitted.
+
+Tests stub external dependencies and exercise actual registration/service/client code. They do not prove live delivery or validate credentials. Removing an exposed default from source does not revoke credentials or erase Git history.
+
+API contracts: [Listmonk subscribers](https://listmonk.app/docs/apis/subscribers/) and [Listmonk lists](https://listmonk.app/docs/apis/lists/).
