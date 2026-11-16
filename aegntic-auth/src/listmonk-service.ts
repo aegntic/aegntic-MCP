@@ -9,10 +9,13 @@ export class ListmonkService {
     this.mockMode = process.env.MOCK_EMAIL_SERVICE === "true";
     
     if (process.env.LISTMONK_URL && !this.mockMode) {
+      if (!process.env.LISTMONK_USER || !process.env.LISTMONK_PASSWORD) {
+        throw new Error("Listmonk credentials are required when LISTMONK_URL is set");
+      }
       this.client = new ListmonkClient({
-        baseUrl: process.env.LISTMONK_URL || "http://localhost:9000",
-        username: process.env.LISTMONK_USER || "aegnt_catface",
-        password: process.env.LISTMONK_PASSWORD || "LMAEp@ssWrd11:11"
+        baseUrl: process.env.LISTMONK_URL,
+        username: process.env.LISTMONK_USER!,
+        password: process.env.LISTMONK_PASSWORD!
       });
     }
   }
@@ -32,8 +35,7 @@ export class ListmonkService {
     }
 
     if (!this.client) {
-      console.warn("Listmonk not configured, skipping subscriber addition");
-      return;
+      throw new Error("Listmonk is not configured");
     }
 
     try {
@@ -67,8 +69,7 @@ export class ListmonkService {
 
       console.log(`✅ Added ${data.email} to Listmonk`);
     } catch (error) {
-      console.error("Failed to add subscriber to Listmonk:", error);
-      // Don't throw - email list addition shouldn't break registration
+      throw new Error("Newsletter enrollment failed");
     }
   }
 }
