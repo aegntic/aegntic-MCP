@@ -6,7 +6,8 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "bun build ./src/index.ts --outdir ./dist --target node --external @modelcontextprotocol/sdk",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "test": "bun test"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.1",

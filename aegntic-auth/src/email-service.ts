@@ -1,5 +1,7 @@
 import * as nodemailer from "nodemailer";
 import { ListmonkService } from "./listmonk-service.js";
+import type { MailingListName } from "./listmonk-service.js";
+import type { EnrollmentOutcome } from "./listmonk-client.js";
 
 export class EmailService {
   private transporter: any;
@@ -18,6 +20,9 @@ export class EmailService {
         host: process.env.SMTP_HOST || "smtp.sendgrid.net",
         port: 587,
         secure: false,
+        connectionTimeout: 5000,
+        greetingTimeout: 5000,
+        socketTimeout: 5000,
         auth: {
           user: process.env.SMTP_USER || "apikey",
           pass: this.apiKey
@@ -29,36 +34,20 @@ export class EmailService {
   async addToMailingList(data: {
     email: string;
     name: string;
-    lists: string[];
+    lists: MailingListName[];
     tier?: string;
-    api_key?: string;
     organization?: string;
-  }): Promise<void> {
-    if (this.mockMode) {
-      console.log(`📧 MOCK: Adding ${data.email} to mailing lists: ${data.lists.join(", ")}`);
-      return;
-    }
-
-    try {
-      // Add subscriber to Listmonk
-      await this.listmonk.addSubscriber({
-        email: data.email,
-        name: data.name,
-        status: 'enabled',
-        attribs: {
-          tier: data.tier || 'free',
-          api_key: data.api_key,
-          organization: data.organization,
-          source: 'aegntic-auth'
-        }
-      });
-      
-      console.log(`✅ Added ${data.email} to Listmonk mailing lists`);
-    } catch (error) {
-      console.error(`Failed to add to Listmonk: ${error.message}`);
-      // Fallback to logging
-      console.log(`Adding ${data.email} to mailing lists: ${data.lists.join(", ")}`);
-    }
+  }): Promise<EnrollmentOutcome | "mock"> {
+    return this.listmonk.addSubscriber({
+      email: data.email,
+      name: data.name,
+      lists: data.lists,
+      metadata: {
+        tier: data.tier || "free",
+        organization: data.organization,
+        source: "aegntic-auth"
+      }
+    });
   }
 
   async sendWelcomeEmail(data: {
