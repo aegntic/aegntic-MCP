@@ -4,7 +4,7 @@ delete process.env.MOCK_EMAIL_SERVICE;
 let calls = 0;
 let fail = false;
 class ListmonkClient {
-  constructor(c) {}
+  constructor(_config) {}
   async ensureLists() {
     return { newsletter: 1, updates: 2 };
   }
