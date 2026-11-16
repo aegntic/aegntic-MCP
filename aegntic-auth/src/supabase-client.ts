@@ -1,3 +1,4 @@
+import { requireJwtSecret } from "./jwt-config.js";
 import { createClient } from '@supabase/supabase-js';
 import { v4 as uuidv4 } from 'uuid';
 import * as jwt from 'jsonwebtoken';
@@ -17,9 +18,9 @@ export class SupabaseAuthManager {
   private supabase: any;
   private jwtSecret: string;
 
-  constructor(supabaseUrl: string, supabaseKey: string, jwtSecret: string = 'aegntic-secret') {
+  constructor(supabaseUrl: string, supabaseKey: string, jwtSecret: string) {
+    this.jwtSecret = requireJwtSecret(jwtSecret);
     this.supabase = createClient(supabaseUrl, supabaseKey);
-    this.jwtSecret = jwtSecret;
   }
 
   async registerUser(data: {
@@ -223,7 +224,7 @@ export class SupabaseAuthManager {
 
   private generateApiKey(email: string): string {
     return jwt.sign(
-      { email, type: 'api_key', iat: Date.now() },
+      { email, type: 'api_key' },
       this.jwtSecret,
       { expiresIn: '1y' }
     );
