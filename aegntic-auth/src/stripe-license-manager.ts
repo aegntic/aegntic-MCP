@@ -1,3 +1,4 @@
+import { requireJwtSecret } from "./jwt-config.js";
 import Stripe from 'stripe';
 import { SupabaseAuthManager } from './supabase-client.js';
 
@@ -27,7 +28,8 @@ export class StripeLicenseManager {
     this.mockMode = !actualStripeKey || process.env.MOCK_PAYMENT_SERVICE === "true";
     this.authManager = authManager || new SupabaseAuthManager(
       process.env.SUPABASE_URL!,
-      process.env.SUPABASE_ANON_KEY!
+      process.env.SUPABASE_ANON_KEY!,
+      requireJwtSecret(process.env.JWT_SECRET)
     );
     
     if (!this.mockMode && actualStripeKey) {
