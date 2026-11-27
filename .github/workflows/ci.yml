@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test-n8n-pro:
+    name: test: n8n-pro
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies (n8n-pro)
+        working-directory: n8n-pro
+        run: npm install --no-audit --no-fund
+
+      - name: test: n8n-pro
+        working-directory: n8n-pro
+        run: npx jest --testPathIgnorePatterns src/tests
+
+  test-ai-collaboration-hub:
+    name: test: ai-collaboration-hub
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: test: ai-collaboration-hub
+        working-directory: servers/ai-collaboration-hub
+        run: uv run --no-project --python 3.12 --with pytest --with pytest-asyncio --with mcp --with httpx --with pydantic pytest tests/ -q
