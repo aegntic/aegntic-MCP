@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   test-n8n-pro:
-    name: test: n8n-pro
+    name: "test: n8n-pro"
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -25,12 +25,12 @@ jobs:
         working-directory: n8n-pro
         run: npm install --no-audit --no-fund
 
-      - name: test: n8n-pro
+      - name: "test: n8n-pro"
         working-directory: n8n-pro
         run: npx jest --testPathIgnorePatterns src/tests
 
   test-ai-collaboration-hub:
-    name: test: ai-collaboration-hub
+    name: "test: ai-collaboration-hub"
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -43,6 +43,6 @@ jobs:
       - name: Install uv
         run: pip install uv
 
-      - name: test: ai-collaboration-hub
+      - name: "test: ai-collaboration-hub"
         working-directory: servers/ai-collaboration-hub
         run: uv run --no-project --python 3.12 --with pytest --with pytest-asyncio --with mcp --with httpx --with pydantic pytest tests/ -q
