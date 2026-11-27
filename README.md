@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/cover-16x9.jpg" alt="aegntic-MCP — AegnticMCP automates the creation and management of MCP servers, ensuring they are stable, adaptable, and intelligent." width="100%" />
+</p>
+
 # Obsidian Elite RAG MCP Server
 
 [![Python Version](https://img.shields.io/badge/python-3.9+-blue.svg)](https://python.org)
