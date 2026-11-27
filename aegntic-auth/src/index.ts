@@ -11,6 +11,8 @@ import {
 import { SupabaseAuthManager } from "./supabase-client.js";
 import { EmailService } from "./email-service.js";
 import { LicenseManager } from "./license-manager.js";
+import { describeListmonkFailure } from "./listmonk-client.js";
+import type { EnrollmentOutcome } from "./listmonk-client.js";
 
 const SUPABASE_URL = process.env.SUPABASE_URL || "";
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || "";
@@ -147,24 +149,35 @@ class AegnticAuthServer {
         tier: args.tier || "free"
       });
 
+      let newsletterEnrollment: EnrollmentOutcome | "failed" | "not_requested" | "mock" = "not_requested";
       // Add to email list if subscribed
       if (args.subscribe_newsletter !== false) {
-        await this.emailService.addToMailingList({
-          email: args.email,
-          name: args.name,
-          lists: ["newsletter", "product-updates"],
-          tier: args.tier || "free",
-          api_key: user.api_key,
-          organization: args.organization
-        });
+        try {
+          newsletterEnrollment = await this.emailService.addToMailingList({
+            email: args.email,
+            name: args.name,
+            lists: ["newsletter", "product-updates"],
+            tier: args.tier || "free",
+            organization: args.organization
+          });
+        } catch (error) {
+          newsletterEnrollment = "failed";
+          console.error("Newsletter enrollment failed:", describeListmonkFailure(error));
+        }
       }
 
-      // Send welcome email
-      await this.emailService.sendWelcomeEmail({
-        email: args.email,
-        name: args.name,
-        tier: args.tier || "free"
-      });
+      // The account already exists: mail failure must not masquerade as registration failure.
+      let welcomeEmail: "sent" | "failed" | "mock" = MOCK_SERVICES ? "mock" : "sent";
+      try {
+        await this.emailService.sendWelcomeEmail({
+          email: args.email,
+          name: args.name,
+          tier: args.tier || "free"
+        });
+      } catch {
+        welcomeEmail = "failed";
+        console.error("Welcome email failed");
+      }
 
       return {
         content: [
@@ -172,7 +185,11 @@ class AegnticAuthServer {
             type: "text",
             text: JSON.stringify({
               success: true,
-              message: "User registered successfully",
+              message: newsletterEnrollment === "failed"
+                ? "Account registered, but newsletter enrollment failed"
+                : "User registered successfully",
+              newsletter_enrollment: newsletterEnrollment,
+              welcome_email: welcomeEmail,
               user_id: user.id,
               tier: user.tier,
               api_key: user.api_key
