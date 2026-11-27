@@ -8,6 +8,7 @@ import {
   ErrorCode,
   McpError,
 } from "@modelcontextprotocol/sdk/types.js";
+import { requireJwtSecret } from "./jwt-config.js";
 import { SupabaseAuthManager } from "./supabase-client.js";
 import { EmailService } from "./email-service.js";
 import { LicenseManager } from "./license-manager.js";
@@ -37,7 +38,7 @@ class AegnticAuthServer {
       }
     );
 
-    this.authManager = new SupabaseAuthManager(SUPABASE_URL, SUPABASE_ANON_KEY);
+    this.authManager = new SupabaseAuthManager(SUPABASE_URL, SUPABASE_ANON_KEY, requireJwtSecret(process.env.JWT_SECRET));
     this.emailService = new EmailService(EMAIL_API_KEY);
     this.licenseManager = new LicenseManager(STRIPE_SECRET_KEY);
 
